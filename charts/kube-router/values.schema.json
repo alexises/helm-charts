@@ -177,7 +177,8 @@
               "oneOf": [
                 {
                   "type": "integer",
-                  "minimum": 2
+                  "minimum": 2,
+                  "maximum": 255
                 },
                 {
                   "type": "null"
