@@ -1,0 +1,364 @@
+{
+  "$schema": "https://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "title": "Values",
+
+  "definitions": {
+    "secondsOrTime": {
+      "oneOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "integer",
+          "minimum": 0
+        }
+      ]
+    },
+    "portNumber": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 65535
+    },
+    "asNumber": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 4294967295
+    },
+    "secondsOrTimeOptionnal": {
+      "oneOf": [
+        {
+          "$ref": "#/definitions/secondsOrTime"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "portNumberOptionnal": {
+      "oneOf": [
+        {
+          "$ref": "#/definitions/portNumber"
+        },
+        {
+          "const": 0
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "asNumberOptionnal": {
+      "oneOf": [
+        {
+          "$ref": "#/definitions/asNumber"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    }
+  },
+
+  "properties": {
+    "image": {
+      "type": "object",
+      "properties": {
+        "repository": {
+          "type": "string"
+        },
+        "tag": {
+          "type": [ "string", "null" ]
+        },
+        "pullPolicy": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "repository",
+        "tag",
+        "pullPolicy"
+      ],
+      "additionalProperties": false
+    },
+    "imagePullSecrets": {
+      "type": "array"
+    },
+    "nameOverride": {
+      "type": "string"
+    },
+    "fullnameOverride": {
+      "type": "string"
+    },
+    "livenessProbe": {
+      "type": "object"
+    },
+    "readinessProbe": {
+      "type": "object"
+    },
+    "updateStrategy": {
+      "type": "object"
+    },
+    "kubeRouter": {
+      "properties": {
+        "apiServerUrl": {
+          "type": [ "string", "null" ]
+        },
+        "enablePprof": {
+          "type": [ "boolean", "null" ]
+        },
+        "cacheSyncTimeout": {
+          "$ref": "#/definitions/secondsOrTimeOptionnal"
+        },
+        "healthPort": {
+          "$ref": "#/definitions/portNumberOptionnal"
+        },
+        "extraArgs": {
+          "type": "array"
+        },
+        "cni": {
+          "properties": {
+            "install": {
+              "type": "boolean"
+            },
+            "version": {
+              "type": "string"
+            },
+            "installPath": {
+              "type": "string"
+            },
+            "downloadUrl": {
+              "type": "string"
+            },
+            "config": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "install",
+            "version",
+            "installPath",
+            "downloadUrl"
+          ],
+          "additionalProperties": false,
+          "type": "object"
+        },
+        "metrics": {
+          "properties": {
+            "path": {
+              "type": [ "string", "null" ]
+            },
+            "port": {
+              "$ref": "#/definitions/portNumberOptionnal"
+            }
+          },
+          "required": [
+            "path",
+            "port"
+          ],
+          "additionalProperties": false,
+          "type": "object"
+        },
+        "router": {
+          "properties": {
+            "enabled": {
+              "type": "boolean"
+            },
+            "bgpRouterId": {
+              "type": [ "string", "null" ]
+            },
+            "routesSyncPeriod": {
+              "$ref": "#/definitions/secondsOrTimeOptionnal"
+            },
+            "peers": {
+              "type": "array"
+            },
+            "peerRouterMultihopTtl": {
+              "oneOf": [
+                {
+                  "type": "integer",
+                  "minimum": 2
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "overrideNexthop": {
+              "type": [ "string", "null" ]
+            },
+            "overlayType": {
+              "oneOf": [
+                {
+                  "type": "string",
+                  "enum": [
+                    "subnet",
+                    "full"
+                  ]
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "nodesFullMesh": {
+              "type": [ "boolean", "null" ]
+            },
+            "enablePodEgress": {
+              "type": [ "boolean", "null" ]
+            },
+            "enableOverlay": {
+              "type": [ "boolean", "null" ]
+            },
+            "enableIbgp": {
+              "type": [ "boolean", "null" ]
+            },
+            "enableCni": {
+              "type": [ "boolean", "null" ]
+            },
+            "disableSourceDestCheck": {
+              "type": [ "boolean", "null" ]
+            },
+            "clusterAsn": {
+              "$ref": "#/definitions/asNumberOptionnal"
+            },
+            "bgpPort": {
+              "$ref": "#/definitions/portNumberOptionnal"
+            },
+            "bgpGracefulRestartDeferralTime": {
+              "$ref": "#/definitions/secondsOrTimeOptionnal"
+            },
+            "bgpGracefulRestart": {
+              "type": [ "boolean", "null" ]
+            },
+            "advertisePodCidr": {
+              "type": [ "boolean", "null" ]
+            },
+            "advertiseLoadbalancerIp": {
+              "type": [ "boolean", "null" ]
+            },
+            "advertiseExternalIp": {
+              "type": [ "boolean", "null" ]
+            },
+            "advertiseClusterIp": {
+              "type": [ "boolean", "null" ]
+            }
+          },
+          "required": [
+            "enabled",
+            "bgpRouterId",
+            "routesSyncPeriod",
+            "peers",
+            "peerRouterMultihopTtl",
+            "overrideNexthop",
+            "overlayType",
+            "nodesFullMesh",
+            "enablePodEgress",
+            "enableOverlay",
+            "enableIbgp",
+            "enableCni",
+            "disableSourceDestCheck",
+            "clusterAsn",
+            "bgpPort",
+            "bgpGracefulRestartDeferralTime",
+            "bgpGracefulRestart",
+            "advertisePodCidr",
+            "advertiseLoadbalancerIp",
+            "advertiseExternalIp",
+            "advertiseClusterIp"
+          ],
+          "additionalProperties": false,
+          "type": "object"
+        },
+        "firewall": {
+          "properties": {
+            "enabled": {
+              "type": "boolean"
+            },
+            "iptablesSyncPeriod": {
+              "$ref": "#/definitions/secondsOrTimeOptionnal"
+            }
+          },
+          "required": [
+            "enabled",
+            "iptablesSyncPeriod"
+          ],
+          "additionalProperties": false,
+          "type": "object"
+        },
+        "serviceProxy": {
+          "properties": {
+            "enabled": {
+              "type": "boolean"
+            },
+            "nodeportBindonAllIp": {
+              "type": [ "boolean", "null" ]
+            },
+            "masqueradeAll": {
+              "type": [ "boolean", "null" ]
+            },
+            "ipvsSyncPeriod": {
+              "$ref": "#/definitions/secondsOrTimeOptionnal"
+            },
+            "ipvsPermitAll": {
+              "type": [ "boolean", "null" ]
+            },
+            "ipvsGracefulTermination": {
+              "type": [ "boolean", "null" ]
+            },
+            "ipvsGracefulPeriod": {
+              "$ref": "#/definitions/secondsOrTimeOptionnal"
+            },
+            "hairpinMode": {
+              "type": [ "boolean", "null" ]
+            },
+            "excludedCidrs": {
+              "type": [ "array", "null" ]
+            }
+          },
+          "required": [
+            "enabled",
+            "nodeportBindonAllIp",
+            "masqueradeAll",
+            "ipvsSyncPeriod",
+            "ipvsPermitAll",
+            "ipvsGracefulTermination",
+            "ipvsGracefulPeriod",
+            "hairpinMode",
+            "excludedCidrs"
+          ],
+          "additionalProperties": false,
+          "type": "object"
+        }
+      },
+      "required": [
+      ],
+      "additionalProperties": false,
+      "type": "object"
+    },
+    "resources": {
+      "type": "object"
+    },
+    "nodeSelector": {
+      "type": "object"
+    },
+    "tolerations": {
+      "type": "array"
+    }
+  },
+
+  "required": [
+    "image",
+    "imagePullSecrets",
+    "nameOverride",
+    "fullnameOverride",
+    "livenessProbe",
+    "readinessProbe",
+    "updateStrategy",
+    "kubeRouter",
+    "resources",
+    "nodeSelector",
+    "tolerations"
+  ],
+  "additionalProperties": false
+}
